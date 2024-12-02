@@ -1,0 +1,5 @@
+add_library(arba_plug_concat SHARED concat.cpp)
+target_sources(arba_plug_concat PUBLIC FILE_SET HEADERS FILES concat.hpp)
+target_compile_features(arba_plug_concat PUBLIC cxx_std_20)
+target_link_libraries(arba_plug_concat PUBLIC arba_plug_concat_interface ${PROJECT_TARGET_NAME})
+set_property(TARGET arba_plug_concat PROPERTY POSITION_INDEPENDENT_CODE 1)

@@ -6,7 +6,7 @@
 
 int main()
 {
-    std::cout << std::format("{} -> {}", plug::version, plug::dummy()) << std::endl;
+    plug::plugin plugin;
     std::cout << "TEST PACKAGE SUCCESS" << std::endl;
     return EXIT_SUCCESS;
 }

@@ -38,12 +38,16 @@ configure_headers(configured_headers
 
 ## Headers:
 set(headers
+    include/arba/plug/plugin_base.hpp
+    include/arba/plug/unsafe_plugin.hpp
     include/arba/plug/plugin.hpp
+    include/arba/plug/plugin_impl.hpp
+    include/arba/plug/exception.hpp
 )
 
 ## Sources:
 set(sources
-    src/arba/plug/plugin.cpp
+    src/arba/plug/plugin_base.cpp
 )
 
 ## Add C++ library:
