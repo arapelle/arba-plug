@@ -1,6 +1,9 @@
 include(cmtk/CppLibraryExamples)
 
-add_cpp_library_basic_examples(${PROJECT_TARGET_NAME}
+add_subdirectory(intgen)
+
+add_cpp_library_example(plugin_example ${PROJECT_TARGET_NAME}
     SOURCES
         plugin_example.cpp
 )
+target_compile_definitions(plugin_example PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/intgen/libintgen")

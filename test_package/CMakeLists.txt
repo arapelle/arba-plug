@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 project(PackageTest CXX)
 
-set(test_program "test_package")
-add_executable(${test_program}
+add_executable(test_package
     test_package.cpp
 )
 
@@ -16,9 +15,12 @@ if(TARGET ${lib_namespace}::${lib_base_name})
 else()
     set(lib_target "${lib_namespace}::${lib_base_name}-static")
 endif()
-target_link_libraries(${test_program}
+target_link_libraries(test_package
     PRIVATE
         ${lib_target}
 )
 
-target_compile_features(${test_program} PRIVATE cxx_std_20)
+target_compile_features(test_package PRIVATE cxx_std_20)
+
+add_subdirectory(intgen)
+target_compile_definitions(test_package PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/intgen/libintgen")
