@@ -1,8 +1,8 @@
 #include <arba/plug/safe_plugin.hpp>
 #include <arba/plug/version.hpp>
 #include <cstdlib>
-#include <iostream>
 #include <format>
+#include <iostream>
 
 int main()
 {
