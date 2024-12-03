@@ -81,6 +81,8 @@ class ArbaPlugRecipe(ConanFile):
         name = self.name + postfix
         self.cpp_info.libs = [name]
         self.cpp_info.set_property("cmake_target_name", name.replace('-', '::', 1))
+        if self.settings.os in ["Linux", "FreeBSD"]:
+            self.cpp_info.system_libs.append("dl")
 
     def cmakelist_content(self):
         if not hasattr(self, "__cmakelist_content"):
