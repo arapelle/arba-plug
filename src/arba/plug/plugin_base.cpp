@@ -21,7 +21,7 @@ namespace plug
 
 plugin_base::plugin_base(const std::filesystem::path& plugin_path)
 {
-    load(plugin_path);
+    load_from_file(plugin_path);
 }
 
 plugin_base::~plugin_base()
@@ -58,7 +58,7 @@ plugin_base& plugin_base::operator=(plugin_base&& other)
     return *this;
 }
 
-void plugin_base::load(const std::filesystem::path& plugin_path)
+void plugin_base::load_from_file(const std::filesystem::path& plugin_path)
 {
     assert(!is_loaded());
 #ifdef WIN32

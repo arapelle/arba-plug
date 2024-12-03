@@ -55,12 +55,12 @@ public:
     plugin_base& operator=(plugin_base&& other);
 
     /**
-     * @brief load Load the plugin present at a given path.
+     * @brief load_from_file Load the plugin present at a given path.
      * @param plugin_path The path to the plugin to load (extension of the file is optional).
      * @throw std::runtime_error If the file does not exist or if there is a problem during loading.
      * @warning If a plugin is already loaded by this instance, the behavior is undefined.
      */
-    void load(const std::filesystem::path& plugin_path);
+    void load_from_file(const std::filesystem::path& plugin_path);
 
     /**
      * @brief unload Unload the plugin.
