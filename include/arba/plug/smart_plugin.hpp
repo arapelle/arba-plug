@@ -13,9 +13,9 @@ namespace plug
 
 using smart_plugin =
 #ifdef NDEBUG
-plugin
+    plugin
 #else
-safe_plugin
+    safe_plugin
 #endif
     ;
 
