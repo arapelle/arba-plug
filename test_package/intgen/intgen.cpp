@@ -1,4 +1,4 @@
-#include <arba/plug/plugin.hpp>
+#include <arba/plug/safe_plugin.hpp>
 
 extern "C" int generate_int()
 {

@@ -1,6 +1,6 @@
 #include "concat.hpp"
 
-#include <arba/plug/plugin.hpp>
+#include <arba/plug/safe_plugin.hpp>
 #include <format>
 #include <iostream>
 

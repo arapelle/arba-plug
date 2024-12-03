@@ -11,7 +11,7 @@ namespace plug
 {
 
 /**
- * @brief The unsafe_plugin class
+ * @brief The plugin class
  */
 class unsafe_plugin : public plugin_impl<unsafe_plugin>
 {
