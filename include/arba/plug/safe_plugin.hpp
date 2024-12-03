@@ -15,7 +15,7 @@ namespace private_
 {
 using function_register_type = std::any (*)(std::string_view);
 static constexpr std::string_view function_register_fname = "arba_plug_safe_plugin_function_register_";
-}
+} // namespace private_
 
 /**
  * @brief The safe_plugin class
@@ -76,8 +76,8 @@ public:
     }
 };
 
-}
-}
+} // namespace plug
+} // namespace arba
 
 #define ARBA_PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER()                                                                \
     extern "C" std::any arba_plug_safe_plugin_function_register_(std::string_view function_name)                       \

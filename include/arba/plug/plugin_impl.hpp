@@ -155,5 +155,5 @@ public:
     }
 };
 
-}
-}
+} // namespace plug
+} // namespace arba

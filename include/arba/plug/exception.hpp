@@ -47,5 +47,5 @@ class plugin_find_symbol_error : public
 #endif
 };
 
-}
-}
+} // namespace plug
+} // namespace arba

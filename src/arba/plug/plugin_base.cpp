@@ -142,5 +142,5 @@ void* plugin_base::find_symbol_pointer(const std::string& symbol_name)
 #endif
 }
 
-}
-}
+} // namespace plug
+} // namespace arba

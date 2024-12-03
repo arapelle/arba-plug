@@ -85,5 +85,5 @@ protected:
     void* handle_ = nullptr;
 };
 
-}
-}
+} // namespace plug
+} // namespace arba

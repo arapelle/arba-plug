@@ -13,14 +13,14 @@ namespace plug
 
 using smart_plugin =
 #ifdef NDEBUG
-plugin
+    plugin
 #else
-safe_plugin
+    safe_plugin
 #endif
     ;
 
-}
-}
+} // namespace plug
+} // namespace arba
 
 #ifdef NDEBUG
 #define ARBA_PLUG_BEGIN_SMART_PLUGIN_FUNCTION_REGISTER()
