@@ -78,14 +78,14 @@ TEST(SafePluginTest, Constructor_UnfoundLibrary_ExpectException)
     }
 }
 
-// Load
+// LoadFromFile
 
-TEST(SafePluginTest, Load_ExistingLibraryWithExtension_ExpectNoException)
+TEST(SafePluginTest, LoadFromFile_ExistingLibraryWithExtension_ExpectNoException)
 {
     try
     {
         plug::safe_plugin plugin;
-        plugin.load(plugin_fpath.generic_string() + std::string(plug::plugin_file_extension));
+        plugin.load_from_file(plugin_fpath.generic_string() + std::string(plug::plugin_file_extension));
         ASSERT_TRUE(plugin.is_loaded());
     }
     catch (const std::exception& exception)
@@ -94,12 +94,12 @@ TEST(SafePluginTest, Load_ExistingLibraryWithExtension_ExpectNoException)
     }
 }
 
-TEST(SafePluginTest, Load_ExistingLibraryNoExtension_ExpectNoException)
+TEST(SafePluginTest, LoadFromFile_ExistingLibraryNoExtension_ExpectNoException)
 {
     try
     {
         plug::safe_plugin plugin;
-        plugin.load(plugin_fpath);
+        plugin.load_from_file(plugin_fpath);
         ASSERT_TRUE(plugin.is_loaded());
     }
     catch (const std::exception& exception)
@@ -108,13 +108,13 @@ TEST(SafePluginTest, Load_ExistingLibraryNoExtension_ExpectNoException)
     }
 }
 
-TEST(SafePluginTest, Load_UnfoundLibrary_ExpectException)
+TEST(SafePluginTest, LoadFromFile_UnfoundLibrary_ExpectException)
 {
     std::filesystem::path lib_path = std::filesystem::current_path() / "concat/libunfound";
     try
     {
         plug::safe_plugin plugin;
-        plugin.load(lib_path);
+        plugin.load_from_file(lib_path);
         FAIL();
     }
     catch (const plug::plugin_load_error& exception)
