@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
 #include <system_error>
 #else
 #include <stdexcept>
@@ -12,7 +12,7 @@ namespace plug
 {
 
 class plugin_load_error : public
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
                           std::system_error
 {
     using std::system_error::system_error;
@@ -24,7 +24,7 @@ class plugin_load_error : public
 };
 
 class plugin_unload_error : public
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
                             std::system_error
 {
     using std::system_error::system_error;
@@ -36,7 +36,7 @@ class plugin_unload_error : public
 };
 
 class plugin_find_symbol_error : public
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
                                  std::system_error
 {
     using std::system_error::system_error;
