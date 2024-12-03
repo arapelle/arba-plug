@@ -18,24 +18,24 @@ static constexpr std::string_view plugin_function_register_fname = "arba_plug_pl
 }
 
 /**
- * @brief The plugin class
+ * @brief The safe_plugin class
  */
-class plugin : public plugin_impl<plugin>
+class safe_plugin : public plugin_impl<safe_plugin>
 {
 private:
-    using base_ = plugin_impl<plugin>;
+    using base_ = plugin_impl<safe_plugin>;
 
 public:
-    inline plugin() {}
+    inline safe_plugin() {}
 
     /**
      * @brief Plugin constructor which takes the path to the plugin to load.
      * @param plugin_path The path to the plugin to load (extension of the file is optional).
      */
-    explicit plugin(const std::filesystem::path& plugin_path) : base_(plugin_path) {}
+    explicit safe_plugin(const std::filesystem::path& plugin_path) : base_(plugin_path) {}
 
-    plugin(plugin&&) = default;
-    plugin& operator=(plugin&&) = default;
+    safe_plugin(safe_plugin&&) = default;
+    safe_plugin& operator=(safe_plugin&&) = default;
 
     /**
      * @brief find_function_ptr Find the address of the function with a given name and check the type of the function.
