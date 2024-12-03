@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 // class to test
-#include <arba/plug/unsafe_plugin.hpp>
+#include <arba/plug/plugin.hpp>
 #include <concat_interface/concat_interface.hpp>
 #include <format>
 
@@ -9,11 +9,11 @@ std::filesystem::path plugin_fpath = PLUGIN_PATH;
 
 // Constructors
 
-TEST(UnsafePluginTest, ConstructorEmpty_NominalCase_ExpectNoException)
+TEST(PluginTest, ConstructorEmpty_NominalCase_ExpectNoException)
 {
     try
     {
-        plug::unsafe_plugin plugin;
+        plug::plugin plugin;
         ASSERT_FALSE(plugin.is_loaded());
     }
     catch (const std::exception& exception)
@@ -22,11 +22,11 @@ TEST(UnsafePluginTest, ConstructorEmpty_NominalCase_ExpectNoException)
     }
 }
 
-TEST(UnsafePluginTest, Constructor_ExistingLibrary_ExpectNoException)
+TEST(PluginTest, Constructor_ExistingLibrary_ExpectNoException)
 {
     try
     {
-        plug::unsafe_plugin plugin(plugin_fpath);
+        plug::plugin plugin(plugin_fpath);
         ASSERT_TRUE(plugin.is_loaded());
     }
     catch (const std::exception& exception)
@@ -35,13 +35,13 @@ TEST(UnsafePluginTest, Constructor_ExistingLibrary_ExpectNoException)
     }
 }
 
-TEST(UnsafePluginTest, Constructor_UnfoundLibrary_ExpectException)
+TEST(PluginTest, Constructor_UnfoundLibrary_ExpectException)
 {
     std::filesystem::path lib_path = std::filesystem::current_path() / "concat/libunfound";
 
     try
     {
-        plug::unsafe_plugin plugin(std::filesystem::current_path() / "concat/libunfound");
+        plug::plugin plugin(std::filesystem::current_path() / "concat/libunfound");
         FAIL();
     }
     catch (const plug::plugin_load_error& exception)
@@ -58,11 +58,11 @@ TEST(UnsafePluginTest, Constructor_UnfoundLibrary_ExpectException)
 
 // Load
 
-TEST(UnsafePluginTest, Load_ExistingLibraryWithExtension_ExpectNoException)
+TEST(PluginTest, Load_ExistingLibraryWithExtension_ExpectNoException)
 {
     try
     {
-        plug::unsafe_plugin plugin;
+        plug::plugin plugin;
         plugin.load(plugin_fpath.generic_string() + std::string(plug::plugin_file_extension));
         ASSERT_TRUE(plugin.is_loaded());
     }
@@ -72,11 +72,11 @@ TEST(UnsafePluginTest, Load_ExistingLibraryWithExtension_ExpectNoException)
     }
 }
 
-TEST(UnsafePluginTest, Load_ExistingLibraryNoExtension_ExpectNoException)
+TEST(PluginTest, Load_ExistingLibraryNoExtension_ExpectNoException)
 {
     try
     {
-        plug::unsafe_plugin plugin;
+        plug::plugin plugin;
         plugin.load(plugin_fpath);
         ASSERT_TRUE(plugin.is_loaded());
     }
@@ -86,12 +86,12 @@ TEST(UnsafePluginTest, Load_ExistingLibraryNoExtension_ExpectNoException)
     }
 }
 
-TEST(UnsafePluginTest, Load_UnfoundLibrary_ExpectException)
+TEST(PluginTest, Load_UnfoundLibrary_ExpectException)
 {
     std::filesystem::path lib_path = std::filesystem::current_path() / "concat/libunfound";
     try
     {
-        plug::unsafe_plugin plugin;
+        plug::plugin plugin;
         plugin.load(lib_path);
         FAIL();
     }
@@ -109,11 +109,11 @@ TEST(UnsafePluginTest, Load_UnfoundLibrary_ExpectException)
 
 // Unload
 
-TEST(UnsafePluginTest, Unload_NomicalCase_ExpectNoException)
+TEST(PluginTest, Unload_NomicalCase_ExpectNoException)
 {
     try
     {
-        plug::unsafe_plugin plugin(plugin_fpath);
+        plug::plugin plugin(plugin_fpath);
         ASSERT_TRUE(plugin.is_loaded());
         plugin.unload();
         ASSERT_FALSE(plugin.is_loaded());
@@ -126,23 +126,23 @@ TEST(UnsafePluginTest, Unload_NomicalCase_ExpectNoException)
 
 // FindFunctionPtr
 
-TEST(UnsafePluginTest, FindFunctionPtr_FunctionName_ReturnNotNullFunctionPtr)
+TEST(PluginTest, FindFunctionPtr_FunctionName_ReturnNotNullFunctionPtr)
 {
     std::string res;
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     auto execute = plugin.find_function_ptr<void (*)(std::string&, std::string_view, const std::string&)>("execute");
     ASSERT_NE(execute, nullptr);
     execute(res, "a", "b");
     ASSERT_EQ(res, "a-b");
 }
 
-TEST(UnsafePluginTest, FindFunctionPtr_FunctionName_ExpectException)
+TEST(PluginTest, FindFunctionPtr_FunctionName_ExpectException)
 {
     std::string_view function_name("notFoundFunction");
 
     try
     {
-        plug::unsafe_plugin plugin(plugin_fpath);
+        plug::plugin plugin(plugin_fpath);
         plugin.find_function_ptr<void (*)(int&)>(function_name);
     }
     catch (const plug::plugin_find_symbol_error& exception)
@@ -159,20 +159,20 @@ TEST(UnsafePluginTest, FindFunctionPtr_FunctionName_ExpectException)
 
 // MakeUniqueInstance
 
-TEST(UnsafePluginTest, MakeUniqueInstance_FunctionExists_ReturnUniquePtr)
+TEST(PluginTest, MakeUniqueInstance_FunctionExists_ReturnUniquePtr)
 {
     std::string_view function_name("make_unique_instance");
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     std::unique_ptr<ConcatInterface> instance = plugin.make_unique_instance<ConcatInterface>(function_name);
     ASSERT_EQ(instance->concat("a", "b"), "a-b");
 }
 
-TEST(UnsafePluginTest, MakeUniqueInstance_FunctionTakingArgsExists_ReturnUniquePtr)
+TEST(PluginTest, MakeUniqueInstance_FunctionTakingArgsExists_ReturnUniquePtr)
 {
     std::string_view function_name("make_unique_instance_from_args");
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     std::unique_ptr<ConcatInterface> instance;
 
     std::string a = "(";
@@ -189,16 +189,16 @@ TEST(UnsafePluginTest, MakeUniqueInstance_FunctionTakingArgsExists_ReturnUniqueP
 
 // MakeSharedInstance
 
-TEST(UnsafePluginTest, MakeSharedInstance_FunctionExists_ReturnSharedPtr)
+TEST(PluginTest, MakeSharedInstance_FunctionExists_ReturnSharedPtr)
 {
     std::string_view function_name("make_shared_instance");
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     std::shared_ptr<ConcatInterface> instance = plugin.make_shared_instance<ConcatInterface>(function_name);
     ASSERT_EQ(instance->concat("a", "b"), "a-b");
 }
 
-TEST(UnsafePluginTest, MakeSharedInstance_FunctionTakingArgsExists_ReturnSharedPtr)
+TEST(PluginTest, MakeSharedInstance_FunctionTakingArgsExists_ReturnSharedPtr)
 {
     std::string_view function_name("make_shared_instance_from_args");
 
@@ -206,7 +206,7 @@ TEST(UnsafePluginTest, MakeSharedInstance_FunctionTakingArgsExists_ReturnSharedP
     std::string b = "(";
     std::string z = "))";
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     ASSERT_EQ(b, "(");
     std::shared_ptr<ConcatInterface> instance =
         plugin.make_shared_instance<ConcatInterface, std::string_view, std::string&, const std::string&>(function_name,
@@ -218,33 +218,33 @@ TEST(UnsafePluginTest, MakeSharedInstance_FunctionTakingArgsExists_ReturnSharedP
 
 // InstanceRef & InstanceCref
 
-TEST(UnsafePluginTest, InstanceRef_FunctionExists_ReturnTypeRef)
+TEST(PluginTest, InstanceRef_FunctionExists_ReturnTypeRef)
 {
     std::string_view function_name("default_concat");
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     ConcatInterface& instance = plugin.instance_ref<ConcatInterface>(function_name);
     ASSERT_EQ(instance.concat("a", "b"), "a-b");
 }
 
-TEST(UnsafePluginTest, InstanceCref_FunctionExists_ReturnTypeConstRef)
+TEST(PluginTest, InstanceCref_FunctionExists_ReturnTypeConstRef)
 {
     std::string_view function_name("default_const_concat");
 
-    plug::unsafe_plugin plugin(plugin_fpath);
+    plug::plugin plugin(plugin_fpath);
     const ConcatInterface& instance = plugin.instance_cref<ConcatInterface>(function_name);
     ASSERT_EQ(instance.concat("a", "b"), "a-b");
 }
 
 // Move Constructor
 
-TEST(UnsafePluginTest, MoveConstructor_ExistingLibrary_ExpectNoException)
+TEST(PluginTest, MoveConstructor_ExistingLibrary_ExpectNoException)
 {
     try
     {
-        std::unique_ptr plugin_uptr = std::make_unique<plug::unsafe_plugin>(plugin_fpath);
+        std::unique_ptr plugin_uptr = std::make_unique<plug::plugin>(plugin_fpath);
         ASSERT_TRUE(plugin_uptr->is_loaded());
-        plug::unsafe_plugin other_plugin(std::move(*plugin_uptr));
+        plug::plugin other_plugin(std::move(*plugin_uptr));
         ASSERT_TRUE(other_plugin.is_loaded());
         ASSERT_FALSE(plugin_uptr->is_loaded());
     }
@@ -256,13 +256,13 @@ TEST(UnsafePluginTest, MoveConstructor_ExistingLibrary_ExpectNoException)
 
 // Move Assignment
 
-TEST(UnsafePluginTest, MoveAssignment_ExistingLibrary_ExpectNoException)
+TEST(PluginTest, MoveAssignment_ExistingLibrary_ExpectNoException)
 {
     try
     {
-        std::unique_ptr plugin_uptr = std::make_unique<plug::unsafe_plugin>(plugin_fpath);
+        std::unique_ptr plugin_uptr = std::make_unique<plug::plugin>(plugin_fpath);
         ASSERT_TRUE(plugin_uptr->is_loaded());
-        plug::unsafe_plugin other_plugin;
+        plug::plugin other_plugin;
         other_plugin = std::move(*plugin_uptr);
         ASSERT_TRUE(other_plugin.is_loaded());
         ASSERT_FALSE(plugin_uptr->is_loaded());
