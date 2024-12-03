@@ -13,8 +13,8 @@ namespace plug
 
 namespace private_
 {
-using plugin_function_register_type = std::any (*)(std::string_view);
-static constexpr std::string_view plugin_function_register_fname = "arba_plug_plugin_function_register_";
+using function_register_type = std::any (*)(std::string_view);
+static constexpr std::string_view function_register_fname = "arba_plug_safe_plugin_function_register_";
 }
 
 /**
@@ -51,9 +51,9 @@ public:
                  && std::is_function_v<std::remove_cvref_t<decltype(*std::declval<FunctionSignatureType>)>>
     FunctionSignatureType find_function_ptr(std::string_view function_name)
     {
-        const auto find_function_ptr = this->find_symbol_pointer(std::string(private_::plugin_function_register_fname));
-        const private_::plugin_function_register_type find_function_ptr_as_any =
-            reinterpret_cast<private_::plugin_function_register_type>(find_function_ptr);
+        const auto find_function_ptr = this->find_symbol_pointer(std::string(private_::function_register_fname));
+        const private_::function_register_type find_function_ptr_as_any =
+            reinterpret_cast<private_::function_register_type>(find_function_ptr);
 
         std::any any_value = find_function_ptr_as_any(function_name);
         if (any_value.has_value()) [[likely]]
@@ -79,18 +79,18 @@ public:
 }
 }
 
-#define ARBA_PLUG_BEGIN_PLUGIN_FUNCTION_REGISTER()                                                                     \
-    extern "C" std::any arba_plug_plugin_function_register_(std::string_view function_name)                            \
+#define ARBA_PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER()                                                                \
+    extern "C" std::any arba_plug_safe_plugin_function_register_(std::string_view function_name)                       \
     {                                                                                                                  \
-        static_assert(arba::plug::private_::plugin_function_register_fname == __func__);                               \
-        static_assert(std::is_same_v<arba::plug::private_::plugin_function_register_type,                              \
-                                     decltype(&arba_plug_plugin_function_register_)>);                                 \
+        static_assert(arba::plug::private_::function_register_fname == __func__);                                      \
+        static_assert(std::is_same_v<arba::plug::private_::function_register_type,                                     \
+                                     decltype(&arba_plug_safe_plugin_function_register_)>);                            \
         static const std::unordered_map<std::string_view, std::any> function_register_                                 \
         {
 
-#define ARBA_PLUG_REGISTER_PLUGIN_FUNCTION(function_) { #function_, &function_ },
+#define ARBA_PLUG_REGISTER_SAFE_PLUGIN_FUNCTION(function_) { #function_, &function_ },
 
-#define ARBA_PLUG_END_PLUGIN_FUNCTION_REGISTER()                                                                       \
+#define ARBA_PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER()                                                                  \
     }                                                                                                                  \
     ;                                                                                                                  \
     const auto iter = function_register_.find(function_name);                                                          \

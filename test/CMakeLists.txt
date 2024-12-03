@@ -3,6 +3,7 @@ include(GoogleTest)
 
 add_subdirectory(concat_interface)
 add_subdirectory(concat)
+add_subdirectory(strgen)
 
 find_package(GTest 1.14 CONFIG REQUIRED)
 
@@ -19,6 +20,12 @@ add_cpp_library_test(plugin_tests ${PROJECT_TARGET_NAME} GTest::gtest_main
 )
 target_link_libraries(plugin_tests PUBLIC arba_plug_concat_interface)
 target_compile_definitions(plugin_tests PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/concat/libarba_plug_concat")
+
+add_cpp_library_test(smart_plugin_tests ${PROJECT_TARGET_NAME} GTest::gtest_main
+    SOURCES
+        smart_plugin_tests.cpp
+)
+target_compile_definitions(smart_plugin_tests PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/strgen/libarba_plug_strgen")
 
 add_cpp_library_basic_tests(${PROJECT_TARGET_NAME} GTest::gtest_main
     SOURCES

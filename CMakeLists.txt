@@ -42,6 +42,7 @@ set(headers
     include/arba/plug/plugin.hpp
     include/arba/plug/safe_plugin.hpp
     include/arba/plug/plugin_impl.hpp
+    include/arba/plug/smart_plugin.hpp
     include/arba/plug/exception.hpp
 )
 
