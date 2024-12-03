@@ -13,22 +13,22 @@ namespace plug
 /**
  * @brief The plugin class
  */
-class unsafe_plugin : public plugin_impl<unsafe_plugin>
+class plugin : public plugin_impl<plugin>
 {
 private:
-    using base_ = plugin_impl<unsafe_plugin>;
+    using base_ = plugin_impl<plugin>;
 
 public:
-    inline unsafe_plugin() {}
+    inline plugin() {}
 
     /**
      * @brief Plugin constructor which takes the path to the plugin to load.
      * @param plugin_path The path to the plugin to load (extension of the file is optional).
      */
-    explicit unsafe_plugin(const std::filesystem::path& plugin_path) : base_(plugin_path) {}
+    explicit plugin(const std::filesystem::path& plugin_path) : base_(plugin_path) {}
 
-    unsafe_plugin(unsafe_plugin&&) = default;
-    unsafe_plugin& operator=(unsafe_plugin&&) = default;
+    plugin(plugin&&) = default;
+    plugin& operator=(plugin&&) = default;
 
     /**
      * @brief find_function_ptr Find the address of the function with a given name.

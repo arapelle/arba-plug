@@ -13,12 +13,12 @@ add_cpp_library_test(safe_plugin_tests ${PROJECT_TARGET_NAME} GTest::gtest_main
 target_link_libraries(safe_plugin_tests PUBLIC arba_plug_concat_interface)
 target_compile_definitions(safe_plugin_tests PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/concat/libarba_plug_concat")
 
-add_cpp_library_test(unsafe_plugin_tests ${PROJECT_TARGET_NAME} GTest::gtest_main
+add_cpp_library_test(plugin_tests ${PROJECT_TARGET_NAME} GTest::gtest_main
     SOURCES
-        unsafe_plugin_tests.cpp
+        plugin_tests.cpp
 )
-target_link_libraries(unsafe_plugin_tests PUBLIC arba_plug_concat_interface)
-target_compile_definitions(unsafe_plugin_tests PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/concat/libarba_plug_concat")
+target_link_libraries(plugin_tests PUBLIC arba_plug_concat_interface)
+target_compile_definitions(plugin_tests PUBLIC PLUGIN_PATH="${CMAKE_CURRENT_BINARY_DIR}/concat/libarba_plug_concat")
 
 add_cpp_library_basic_tests(${PROJECT_TARGET_NAME} GTest::gtest_main
     SOURCES
