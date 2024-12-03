@@ -21,7 +21,7 @@ TEST(PluginImplTest, CheckDefaultFuncNames_Eq_Ok)
 TEST(PluginBase, PluginFileExtension_NoArg_ExpectNoException)
 {
     constexpr std::string_view ext =
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
         ".dll";
 #else
         ".so";

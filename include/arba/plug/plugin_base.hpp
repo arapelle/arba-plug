@@ -10,7 +10,7 @@ namespace plug
 {
 
 constexpr std::string_view plugin_file_extension =
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
     ".dll";
 #else
     ".so";

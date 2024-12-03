@@ -2,7 +2,7 @@
 #include <cassert>
 #include <format>
 #include <iostream>
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
 #include <windows.h>
 #else
 #include <dlfcn.h>
@@ -61,7 +61,7 @@ plugin_base& plugin_base::operator=(plugin_base&& other)
 void plugin_base::load_from_file(const std::filesystem::path& plugin_path)
 {
     assert(!is_loaded());
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
     static_assert(std::is_pointer_v<HINSTANCE>);
     static_assert(std::is_nothrow_convertible_v<HINSTANCE, void*>);
 
@@ -96,7 +96,7 @@ void plugin_base::load_from_file(const std::filesystem::path& plugin_path)
 void plugin_base::unload()
 {
     assert(is_loaded());
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
     int result = FreeLibrary(static_cast<HINSTANCE>(handle_));
     if (result == 0) [[unlikely]]
     {
@@ -118,7 +118,7 @@ void plugin_base::unload()
 void* plugin_base::find_symbol_pointer(const std::string& symbol_name)
 {
     assert(is_loaded());
-#ifdef WIN32
+#if defined(WIN32) || defined(__MINGW32__) || defined(__MINGW64__)
     static_assert(std::is_pointer_v<FARPROC>);
 
     FARPROC pointer = GetProcAddress(static_cast<HINSTANCE>(handle_), symbol_name.c_str());
