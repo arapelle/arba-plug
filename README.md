@@ -17,7 +17,19 @@ Testing Libraries (optional):
 ## Clone
 
 ```
-git clone https://github.com/arapelle/arba-plug --recurse-submodules
+git clone https://github.com/arapelle/arba-plug
+```
+
+## Use with `conan`
+
+Create the conan package.
+```
+conan create . --build=missing -c
+```
+Add a requirement in your conanfile project file.
+```python
+    def requirements(self):
+        self.requires("arba-vrsn/0.1.0")
 ```
 
 ## Quick Install ##
