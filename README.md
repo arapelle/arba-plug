@@ -29,7 +29,7 @@ conan create . --build=missing -c
 Add a requirement in your conanfile project file.
 ```python
     def requirements(self):
-        self.requires("arba-vrsn/0.1.0")
+        self.requires("arba-plug/0.2.0")
 ```
 
 ## Quick Install ##
@@ -60,7 +60,7 @@ cmake -P uninstall.cmake
 
 int main()
 {
-    plug::plugin plugin(PLUGIN_PATH);
+    plug::plugin plugin("path/to/plugin");
     auto generate_int = plugin.find_function_ptr<int (*)()>("generate_int");
     std::cout << generate_int() << std::endl;
     return EXIT_SUCCESS;
