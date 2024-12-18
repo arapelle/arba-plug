@@ -96,3 +96,30 @@ public:
     const auto iter = function_register_.find(function_name);                                                          \
     return iter != function_register_.cend() ? iter->second : std::any();                                              \
     }
+
+#ifndef PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER
+#define PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER() ARBA_PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER()
+#else
+#if not defined(NDEBUG) && (defined(__GNUC__) || defined(__GNUG__) || defined(_MSC_VER) || defined(__clang__))
+#pragma message                                                                                                        \
+    "PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER already exists. You must use ARBA_PLUG_BEGIN_SAFE_PLUGIN_FUNCTION_REGISTER."
+#endif
+#endif
+
+#ifndef PLUG_REGISTER_SAFE_PLUGIN_FUNCTION
+#define PLUG_REGISTER_SAFE_PLUGIN_FUNCTION(function_) ARBA_PLUG_REGISTER_SAFE_PLUGIN_FUNCTION(function_)
+#else
+#if not defined(NDEBUG) && (defined(__GNUC__) || defined(__GNUG__) || defined(_MSC_VER) || defined(__clang__))
+#pragma message                                                                                                        \
+    "PLUG_REGISTER_SAFE_PLUGIN_FUNCTION already exists. You must use ARBA_PLUG_REGISTER_SAFE_PLUGIN_FUNCTION."
+#endif
+#endif
+
+#ifndef PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER
+#define PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER() ARBA_PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER()
+#else
+#if not defined(NDEBUG) && (defined(__GNUC__) || defined(__GNUG__) || defined(_MSC_VER) || defined(__clang__))
+#pragma message                                                                                                        \
+    "PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER already exists. You must use ARBA_PLUG_END_SAFE_PLUGIN_FUNCTION_REGISTER."
+#endif
+#endif
