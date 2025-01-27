@@ -1,4 +1,5 @@
 #include <arba/plug/smart_plugin.hpp>
+
 #include <gtest/gtest.h>
 
 std::filesystem::path plugin_fpath = PLUGIN_PATH;
