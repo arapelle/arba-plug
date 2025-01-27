@@ -1,4 +1,5 @@
 #include <arba/plug/smart_plugin.hpp>
+
 #include <string>
 
 extern "C" std::string generate_str()
