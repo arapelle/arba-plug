@@ -1,5 +1,6 @@
 #include <arba/plug/safe_plugin.hpp>
 #include <arba/plug/version.hpp>
+
 #include <cstdlib>
 #include <format>
 #include <iostream>

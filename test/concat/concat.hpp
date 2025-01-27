@@ -1,6 +1,7 @@
 #pragma once
 
 #include <concat_interface/concat_interface.hpp>
+
 #include <memory>
 
 // The concrete class (implementing the class interface) provided by the plugin.
