@@ -79,7 +79,7 @@ if(NOT WIN32)
         PRIVATE ${dl-static_path}
     )
 endif()
-find_package(arba-cppx 0.1.0 REQUIRED CONFIG)
+find_package(arba-cppx 0.3.0 REQUIRED CONFIG)
 target_link_libraries(${PROJECT_TARGET_NAME}
     PUBLIC
         arba::cppx
